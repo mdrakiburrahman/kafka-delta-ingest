@@ -151,7 +151,7 @@ More info:
 5. Build the docker image
 
 ```
-docker build -t kdi:0.1 . -f Dockerfile.Debian
+docker build -t kdi:0.1 . -f Dockerfile
 ```
 
 Notes:

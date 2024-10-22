@@ -1,10 +1,10 @@
-FROM rust:1.79 AS builder
+FROM rust:1.80 AS builder
 
 RUN mkdir /build
 WORKDIR /build
 COPY ./ .
 
-RUN cargo build --release --features s3
+RUN cargo build --release --features azure
 
 FROM alpine
 
