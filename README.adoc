@@ -31,7 +31,9 @@ Create a fresh WSL machine with `wsl --unregister Ubuntu-24.04`, and recreating 
 ```bash
 cd ~/
 git clone https://github.com/mdrakiburrahman/kafka-delta-ingest
-git checkout -b dev/mdrrahman/hello-kdi
+git checkout -b dev/some/branch
+git config --global user.name "Your Name"
+git config --global user.email "your-email@gmail.com"
 cd kafka-delta-ingest
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
