@@ -89,6 +89,32 @@ RUST_LOG=debug cargo run --features s3,azure ingest web_requests ./tests/data/we
 #
 ```
 
+6. Run against Azure Event Hub - here are some settings for [rdkafka](https://docs.confluent.io/platform/current/installation/configuration/consumer-configs.html):
+
+```bash
+export AZURE_STORAGE_ACCOUNT_NAME=...
+export AZURE_STORAGE_ACCOUNT_KEY=...==
+export RUST_LOG=info
+
+cargo run --features azure ingest dmv abfss://...@...dfs.core.windows.net/synapse/workspaces/.../temp/demo-table-rust \
+  --kafka ....servicebus.windows.net:9093 \
+  --kafka_setting "security.protocol=SASL_SSL" \
+  --kafka_setting "sasl.mechanism=PLAIN" \
+  --kafka_setting "sasl.username=\$ConnectionString" \
+  --kafka_setting "sasl.password=Endpoint=sb://....servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=..." \
+  --kafka_setting "socket.keepalive.enable=true" \
+  --kafka_setting "metadata.max.age.ms=180000" \
+  --kafka_setting "heartbeat.interval.ms=3000" \
+  --kafka_setting "session.timeout.ms=30000" \
+  --kafka_setting "fetch.min.bytes=200000" \
+  --kafka_setting "fetch.max.bytes=209715200" \
+  --kafka_setting "debug=broker,security,protocol" \
+  --allowed_latency 300 \
+  --max_messages_per_batch 10000 \
+  --app_id dmv \
+  --auto_offset_reset earliest
+```
+
 Notes:
 
 * The AWS_* environment variables are for S3 and are required by the delta-rs library.
@@ -170,15 +196,15 @@ docker run -it --network=host ^
   ingest web_requests adls2://{AZURE_STORAGE_ACCOUNT_NAME}/{FILESYSTEM_NAME}/web_requests ^
   --allowed_latency 5 ^
   --kafka thovoll-kdi-eh.servicebus.windows.net:9093 ^
-  --Kafka security.protocol=SASL_SSL ^
-  --Kafka sasl.mechanism=PLAIN ^
-  --Kafka sasl.username=$ConnectionString ^
-  --Kafka sasl.password=Endpoint=sb://{EVENTHUBS_NAMESPACE_NAME}.servicebus.windows.net/;SharedAccessKeyName={EVENTHUBS_KEY_NAME};SharedAccessKey={EVENTHUBS_KEY} ^
-  --Kafka socket.keepalive.enable=true ^
-  --Kafka metadata.max.age.ms=180000 ^
-  --Kafka heartbeat.interval.ms=3000 ^
-  --Kafka session.timeout.ms=30000 ^
-  --Kafka debug=broker,security,protocol ^
+  --kafka security.protocol=SASL_SSL ^
+  --kafka sasl.mechanism=PLAIN ^
+  --kafka sasl.username=$ConnectionString ^
+  --kafka sasl.password=Endpoint=sb://{EVENTHUBS_NAMESPACE_NAME}.servicebus.windows.net/;SharedAccessKeyName={EVENTHUBS_KEY_NAME};SharedAccessKey={EVENTHUBS_KEY} ^
+  --kafka socket.keepalive.enable=true ^
+  --kafka metadata.max.age.ms=180000 ^
+  --kafka heartbeat.interval.ms=3000 ^
+  --kafka session.timeout.ms=30000 ^
+  --kafka debug=broker,security,protocol ^
   --app_id web_requests ^
   --transform "date: substr(meta.producer.timestamp, `0`, `10`)" ^
   --transform "meta.kafka.offset: kafka.offset" ^
@@ -191,7 +217,7 @@ Notes:
 
 * In the docker command:
 ** The `sasl.username` is the literal string `$ConnectionString` and not a placeholder.
-** The following `--Kafka` arguments are taken from link:https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
+** The following `--kafka` arguments are taken from link:https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
 *** `socket.keepalive.enable=true`
 *** `metadata.max.age.ms=180000`
 *** `heartbeat.interval.ms=3000`
