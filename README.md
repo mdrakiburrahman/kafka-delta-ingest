@@ -1,14 +1,14 @@
 # kafka-delta-ingest
 
 The kafka-delta-ingest project aims to build a highly efficient daemon for
-streaming data through link:https://kafka.apache.org[Apache Kafka] into
-link:https://delta.io[Delta Lake].
+streaming data through [Apache Kafka](https://kafka.apache.org) into
+[Delta Lake](https://delta.io).
 
 This project is currently in production in a number of organizations and is
 still actively evolving in tandem with the
-link:https://github.com/delta-io/delta-rs[delta-rs] bindings.
+[delta-rs](https://github.com/delta-io/delta-rs) bindings.
 
-To contribute please look at the link:https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/HACKING.adoc[hacking document].
+To contribute please look at the [hacking document](https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/HACKING.adoc).
 
 ## Features
 
@@ -16,13 +16,13 @@ To contribute please look at the link:https://github.com/delta-io/kafka-delta-in
 * Basic transformations within message
 * Statsd metric output
 
-See the link:https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/DESIGN.md[design doc] for more details.
+See the [https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/DESIGN.md[design doc] for more details.
 
 ### Example
 
 The repository includes an example for trying out the application locally with some fake web request data.
 
-The included docker-compose.yml contains link:https://github.com/wurstmeister/kafka-docker/issues[kafka] and link:https://github.com/localstack/localstack[localstack] services you can run `kafka-delta-ingest` against locally.
+The included docker-compose.yml contains [https://github.com/wurstmeister/kafka-docker/issues[kafka] and [https://github.com/localstack/localstack[localstack] services you can run `kafka-delta-ingest` against locally.
 
 #### Dev env setup
 
@@ -192,13 +192,13 @@ More info:
 
 #### Starting Worker Processes
 
-1. link:https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-create[Create] an Azure Event Hubs Namespace and within it, an Event Hub (which corresponds to a Kafka topic).
+1. [https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-create[Create] an Azure Event Hubs Namespace and within it, an Event Hub (which corresponds to a Kafka topic).
 
 2. Set these environment variables, they are required by the delta-rs library:
 * `AZURE_STORAGE_ACCOUNT_NAME` (just the storage account name, not the FQDN)
 * `AZURE_STORAGE_ACCOUNT_KEY` (just the key, not the connection string)
 
-3. Create the `_delta_log` directory in the `web_requests` directory in Azure Storage and upload the link:https://github.com/delta-io/kafka-delta-ingest/blob/main/tests/data/web_requests/_delta_log/00000000000000000000.json[first Delta transaction containing the schema] to this directory.
+3. Create the `_delta_log` directory in the `web_requests` directory in Azure Storage and upload the [https://github.com/delta-io/kafka-delta-ingest/blob/main/tests/data/web_requests/_delta_log/00000000000000000000.json[first Delta transaction containing the schema] to this directory.
 
 4. In the docker command below, replace the following placeholders with your values:
 * `AZURE_STORAGE_ACCOUNT_NAME` (just the storage account name, not the FQDN)
@@ -250,7 +250,7 @@ Notes:
 
 * In the docker command:
 ** The `sasl.username` is the literal string `$ConnectionString` and not a placeholder.
-** The following `--kafka` arguments are taken from link:https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
+** The following `--kafka` arguments are taken from [https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
 *** `socket.keepalive.enable=true`
 *** `metadata.max.age.ms=180000`
 *** `heartbeat.interval.ms=3000`
@@ -258,7 +258,7 @@ Notes:
 
 #### Sending data to Event Hubs
 
-On Windows, link:https://github.com/paolosalvatori/ServiceBusExplorer[Service Bus Explorer] can be used to send data to Event Hubs.
+On Windows, [https://github.com/paolosalvatori/ServiceBusExplorer[Service Bus Explorer] can be used to send data to Event Hubs.
 
 The following payload should be sent for the web_requests Delta table:
 
@@ -293,7 +293,7 @@ docker run -it --network=host edenhill/kcat:1.7.1 -C -o -1 -b {EVENTHUBS_NAMESPA
 
 Notes:
 
-* The following configuration settings in the command above are taken from link:https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
+* The following configuration settings in the command above are taken from [https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
 `-X socket.keepalive.enable=true -X metadata.max.age.ms=180000 -X heartbeat.interval.ms=3000 -X session.timeout.ms=30000`
 
 ## Kafka SSL
@@ -352,7 +352,7 @@ The table below indicates what will happen with respect to the provided argument
 |===
 
 
-For more information, see link:https://github.com/delta-io/delta-rs/tree/dbc2994c5fddfd39fc31a8f9202df74788f59a01/dynamodb_lock[DynamoDB lock].
+For more information, see [https://github.com/delta-io/delta-rs/tree/dbc2994c5fddfd39fc31a8f9202df74788f59a01/dynamodb_lock[DynamoDB lock].
 
 ## Verifying data in Azure Storage
 
@@ -367,4 +367,4 @@ Use the Azure Portal to browse the file system:
 
 ## Get Involved
 
-Join link:https://delta-users.slack.com/archives/C01Q2RXCVSQ[#kafka-delta-ingest in the Delta Lake Slack workspace]
+Join [https://delta-users.slack.com/archives/C01Q2RXCVSQ[#kafka-delta-ingest in the Delta Lake Slack workspace]
