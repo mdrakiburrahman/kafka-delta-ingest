@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Kafka Delta Ingest",
+            "preLaunchTask": "Build Kafka Delta Ingest",
+            "type": "lldb",
+            "request": "launch",
+            "cargo": {
+                "args": [
+                    "run --features s3,azure ingest web_requests ./tests/data/web_requests",
+                    "--allowed_latency 60",
+                    "--app_id web_requests",
+                    "--transform 'date: substr(meta.producer.timestamp, `0`, `10`)'",
+                    "--transform 'meta.kafka.offset: kafka.offset'",
+                    "--transform 'meta.kafka.partition: kafka.partition'",
+                    "--transform 'meta.kafka.topic: kafka.topic'",
+                    "--auto_offset_reset earliest"
+                ],
+                "filter": {
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "env": {
+                "AWS_ENDPOINT_URL": "http://0.0.0.0:4566",
+                "AWS_ACCESS_KEY_ID": "test",
+                "AWS_SECRET_ACCESS_KEY": "test",
+                "RUST_LOG": "debug"
+            }
+        }
+    ]
+}

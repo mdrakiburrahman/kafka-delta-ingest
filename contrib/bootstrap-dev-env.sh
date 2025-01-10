@@ -11,6 +11,17 @@ set -e
 set -m
 
 echo ""
+echo "┌───────────────────────────────┐"
+echo "│ Installing VS Code extensions │"
+echo "└───────────────────────────────┘"
+echo ""
+
+code --install-extension github.copilot
+code --install-extension eamodio.gitlens
+code --install-extension rust-lang.rust-analyzer
+code --install-extension vadimcn.vscode-lldb
+
+echo ""
 echo "┌───────────────────────────────────┐"
 echo "│ Checking for package dependencies │"
 echo "└───────────────────────────────────┘"
@@ -36,6 +47,8 @@ echo ""
 
 if ! command -v cargo &> /dev/null; then
     echo "cargo not found - installing..."
+    export CARGO_HOME=$HOME
+    export RUSTUP_HOME=$HOME
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source ~/.bashrc
 fi

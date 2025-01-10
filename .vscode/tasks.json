@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Kafka Delta Ingest",
+            "type": "shell",
+            "command": "/home/boor/.cargo/bin/cargo build --features s3,azure",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

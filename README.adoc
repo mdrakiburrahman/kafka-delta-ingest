@@ -28,28 +28,37 @@ The included docker-compose.yml contains link:https://github.com/wurstmeister/ka
 
 Create a fresh WSL machine with `wsl --unregister Ubuntu-24.04`, and recreating via Windows Store.
 
+Open via VS Code into a terminal.
+
 ```bash
 cd ~/
 git clone https://github.com/mdrakiburrahman/kafka-delta-ingest
-git checkout -b dev/some/branch
-git config --global user.name "Your Name"
-git config --global user.email "your-email@gmail.com"
+git checkout -b origin/dev/mdrrahman/hello-kdi
 cd kafka-delta-ingest
+
+code .
+
+git config --global user.name "Raki Rahman"
+git config --global user.email "mdrakiburrahman@gmail.com"
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
 
 chmod +x ${GIT_ROOT}/contrib/bootstrap-dev-env.sh && ${GIT_ROOT}/contrib/bootstrap-dev-env.sh
 ```
 
+Motes:
+
+* If you run into docker problems, check Docker Desktop: Settings > Resources > WSL Integration > Turn on
+
 ==== Starting Worker Processes
 
 1. Launch test services - `docker-compose up setup`
 2. Compile: `cargo build --features s3,azure`
-3. Run tests - `cargo test --features s3,azure`
+3. Run tests, if you like: `cargo test --features s3,azure`
 4. Play JSON data into your Kafka topic:
 
 ```bash
-# Upload data
+# Upload data into topic
 kcat -b localhost:9092 -t web_requests -P -l ${GIT_ROOT}/tests/json/web_requests-100.json
 
 # View topics
@@ -320,6 +329,7 @@ The table below indicates what will happen with respect to the provided argument
 
 
 For more information, see link:https://github.com/delta-io/delta-rs/tree/dbc2994c5fddfd39fc31a8f9202df74788f59a01/dynamodb_lock[DynamoDB lock].
+
 == Verifying data in Azure Storage
 
 Use the Azure Portal to browse the file system:
@@ -327,6 +337,9 @@ Use the Azure Portal to browse the file system:
 * Data files: `web_requests/date=2021-03-24`
 * Delta log files: `web_requests/_delta_log`
 
+==== Debug the app
+
+[This is a great VSCode tutorial](https://code.visualstudio.com/docs/languages/rust).
 
 == Get Involved
 
