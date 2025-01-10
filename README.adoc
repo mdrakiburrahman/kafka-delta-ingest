@@ -31,7 +31,9 @@ The included docker-compose.yml contains link:https://github.com/wurstmeister/ka
    ```powershell
    # Delete old WSL
    wsl --unregister Ubuntu-24.04
+   ```
 
+   ```powershell
    # Create new WSL
    wsl --install -d Ubuntu-24.04
    ```
