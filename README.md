@@ -1,4 +1,4 @@
-= kafka-delta-ingest
+# kafka-delta-ingest
 
 The kafka-delta-ingest project aims to build a highly efficient daemon for
 streaming data through link:https://kafka.apache.org[Apache Kafka] into
@@ -10,7 +10,7 @@ link:https://github.com/delta-io/delta-rs[delta-rs] bindings.
 
 To contribute please look at the link:https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/HACKING.adoc[hacking document].
 
-== Features
+## Features
 
 * Multiple worker processes per stream
 * Basic transformations within message
@@ -18,13 +18,13 @@ To contribute please look at the link:https://github.com/delta-io/kafka-delta-in
 
 See the link:https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/DESIGN.md[design doc] for more details.
 
-=== Example
+### Example
 
 The repository includes an example for trying out the application locally with some fake web request data.
 
 The included docker-compose.yml contains link:https://github.com/wurstmeister/kafka-docker/issues[kafka] and link:https://github.com/localstack/localstack[localstack] services you can run `kafka-delta-ingest` against locally.
 
-==== Dev env setup
+#### Dev env setup
 
 1. Get a fresh new WSL machine up:
 
@@ -74,7 +74,7 @@ Motes:
 
 * If you run into docker problems, check Docker Desktop: Settings > Resources > WSL Integration > Turn on
 
-==== Starting Worker Processes
+#### Starting Worker Processes
 
 1. Launch test services - `docker-compose up setup`
 2. Compile: `cargo build --features s3,azure`
@@ -155,7 +155,7 @@ Notes:
 * The Kafka broker is assumed to be at localhost:9092, use -k to override.
 * To clean data from previous local runs, execute `./bin/clean-example-data.sh`. You'll need to do this if you destroy your Kafka container between runs since your delta log directory will be out of sync with Kafka offsets.
 
-==== Kafka SSL
+#### Kafka SSL
 
 In case you have Kafka topics secured by SSL client certificates, you can specify these secrets as environment variables.
 
@@ -173,7 +173,7 @@ Make sure to provide the additional option:
 when invoking the cli command as well.
 
 
-=== Using Azure Event Hubs
+### Using Azure Event Hubs
 
 Azure Event Hubs (with pricing tier "Standard" or higher) has a Kafka Surface that can be used with kafka-delta-ingest.
 
@@ -190,7 +190,7 @@ More info:
 * https://github.com/edenhill/librdkafka/issues/3109
 
 
-==== Starting Worker Processes
+#### Starting Worker Processes
 
 1. link:https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-create[Create] an Azure Event Hubs Namespace and within it, an Event Hub (which corresponds to a Kafka topic).
 
@@ -256,7 +256,7 @@ Notes:
 *** `heartbeat.interval.ms=3000`
 *** `session.timeout.ms=30000`
 
-==== Sending data to Event Hubs
+#### Sending data to Event Hubs
 
 On Windows, link:https://github.com/paolosalvatori/ServiceBusExplorer[Service Bus Explorer] can be used to send data to Event Hubs.
 
@@ -277,7 +277,7 @@ The following payload should be sent for the web_requests Delta table:
 }
 ```
 
-==== Verifying data from Event Hub using kcat
+#### Verifying data from Event Hub using kcat
 
 kcat can be run on Windows via docker using this command, which will print the last message (-o -1).
 
@@ -296,7 +296,7 @@ Notes:
 * The following configuration settings in the command above are taken from link:https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
 `-X socket.keepalive.enable=true -X metadata.max.age.ms=180000 -X heartbeat.interval.ms=3000 -X session.timeout.ms=30000`
 
-== Kafka SSL
+## Kafka SSL
 
 In case you have Kafka topics secured by SSL client certificates, you can specify these secrets as environment variables.
 
@@ -313,7 +313,7 @@ Make sure to provide the additional option:
 
 when invoking the cli command as well.
 
-== Gzip Compressed Messages
+## Gzip Compressed Messages
 
 kafka-delta-ingest now supports ingestion of gzip-compressed messages. This can be particularly useful when dealing with large volumes of data that benefit from compression.
 
@@ -336,7 +336,7 @@ aws dynamodb create-table --table-name delta_rs_lock_table \
         ReadCapacityUnits=10,WriteCapacityUnits=10
 ```
 
-== Schema Support
+## Schema Support
 This application has support for both avro and json format via command line arguments. If no format argument is provided, the default behavior is to use json.
 The table below indicates what will happen with respect to the provided arguments.
 
@@ -354,17 +354,17 @@ The table below indicates what will happen with respect to the provided argument
 
 For more information, see link:https://github.com/delta-io/delta-rs/tree/dbc2994c5fddfd39fc31a8f9202df74788f59a01/dynamodb_lock[DynamoDB lock].
 
-== Verifying data in Azure Storage
+## Verifying data in Azure Storage
 
 Use the Azure Portal to browse the file system:
 
 * Data files: `web_requests/date=2021-03-24`
 * Delta log files: `web_requests/_delta_log`
 
-==== Debug the app
+#### Debug the app
 
 [This is a great VSCode tutorial](https://code.visualstudio.com/docs/languages/rust).
 
-== Get Involved
+## Get Involved
 
 Join link:https://delta-users.slack.com/archives/C01Q2RXCVSQ[#kafka-delta-ingest in the Delta Lake Slack workspace]
