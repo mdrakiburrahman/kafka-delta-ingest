@@ -64,7 +64,7 @@ The included docker-compose.yml contains [kafka](https://github.com/wurstmeister
    git fetch origin
    ```
 
-   Checkout the branch using VSCode UI.
+   Checkout this branch using VS Code UI.
 
 5. Bootstrap your dev env
 
