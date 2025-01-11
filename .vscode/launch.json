@@ -6,22 +6,26 @@
             "preLaunchTask": "Build Kafka Delta Ingest",
             "type": "lldb",
             "request": "launch",
-            "cargo": {
-                "args": [
-                    "run --features s3,azure ingest web_requests ./tests/data/web_requests",
-                    "--allowed_latency 60",
-                    "--app_id web_requests",
-                    "--transform 'date: substr(meta.producer.timestamp, `0`, `10`)'",
-                    "--transform 'meta.kafka.offset: kafka.offset'",
-                    "--transform 'meta.kafka.partition: kafka.partition'",
-                    "--transform 'meta.kafka.topic: kafka.topic'",
-                    "--auto_offset_reset earliest"
-                ],
-                "filter": {
-                    "kind": "bin"
-                }
-            },
-            "args": [],
+            "program": "${workspaceFolder}/target/debug/kafka-delta-ingest",
+            "args": [
+                "ingest",
+                "web_requests",
+                "./tests/data/web_requests",
+                "--allowed_latency=60",
+                "--app_id=web_requests",
+                "--auto_offset_reset=earliest",
+                "--transform",
+                "date: substr(meta.producer.timestamp, `0`, `10`)",
+                "--transform",
+                "meta.kafka.offset: kafka.offset",
+                "--transform",
+                "meta.kafka.partition: kafka.partition",
+                "--transform",
+                "meta.kafka.topic: kafka.topic"
+            ],
+            "cwd": "${workspaceFolder}",
+            "preRunCommands": [],
+            "terminal": "integrated",
             "env": {
                 "AWS_ENDPOINT_URL": "http://0.0.0.0:4566",
                 "AWS_ACCESS_KEY_ID": "test",
