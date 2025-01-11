@@ -47,8 +47,6 @@ echo ""
 
 if ! command -v cargo &> /dev/null; then
     echo "cargo not found - installing..."
-    export CARGO_HOME=$HOME
-    export RUSTUP_HOME=$HOME
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source ~/.bashrc
 fi

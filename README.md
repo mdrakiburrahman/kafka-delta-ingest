@@ -16,13 +16,13 @@ To contribute please look at the [hacking document](https://github.com/delta-io/
 * Basic transformations within message
 * Statsd metric output
 
-See the [https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/DESIGN.md[design doc] for more details.
+See the [design doc](https://github.com/delta-io/kafka-delta-ingest/blob/main/doc/DESIGN.md) for more details.
 
 ### Example
 
 The repository includes an example for trying out the application locally with some fake web request data.
 
-The included docker-compose.yml contains [https://github.com/wurstmeister/kafka-docker/issues[kafka] and [https://github.com/localstack/localstack[localstack] services you can run `kafka-delta-ingest` against locally.
+The included docker-compose.yml contains [kafka](https://github.com/wurstmeister/kafka-docker/issues) and [localstack](https://github.com/localstack/localstack) services you can run `kafka-delta-ingest` against locally.
 
 #### Dev env setup
 
@@ -49,24 +49,27 @@ The included docker-compose.yml contains [https://github.com/wurstmeister/kafka-
    ```bash
    cd ~/
 
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
+   git config --global user.name "Raki Rahman"
+   git config --global user.email "mdrakiburrahman@gmail.com"
+
    git clone https://github.com/mdrakiburrahman/kafka-delta-ingest.git
 
    cd kafka-delta-ingest/
    code .
    ```
 
-4. Create a new branch, if required, or use :
+4. Fetch origin:
 
    ```bash
    git fetch origin
-   git checkout -b origin/dev/mdrrahman/hello-kdi
    ```
+
+   Checkout the branch using VSCode UI.
 
 5. Bootstrap your dev env
 
    ```bash
+   GIT_ROOT=$(git rev-parse --show-toplevel)
    chmod +x ${GIT_ROOT}/contrib/bootstrap-dev-env.sh && ${GIT_ROOT}/contrib/bootstrap-dev-env.sh
    ```
 
@@ -192,13 +195,13 @@ More info:
 
 #### Starting Worker Processes
 
-1. [https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-create[Create] an Azure Event Hubs Namespace and within it, an Event Hub (which corresponds to a Kafka topic).
+1. [Create](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-create) an Azure Event Hubs Namespace and within it, an Event Hub (which corresponds to a Kafka topic).
 
 2. Set these environment variables, they are required by the delta-rs library:
 * `AZURE_STORAGE_ACCOUNT_NAME` (just the storage account name, not the FQDN)
 * `AZURE_STORAGE_ACCOUNT_KEY` (just the key, not the connection string)
 
-3. Create the `_delta_log` directory in the `web_requests` directory in Azure Storage and upload the [https://github.com/delta-io/kafka-delta-ingest/blob/main/tests/data/web_requests/_delta_log/00000000000000000000.json[first Delta transaction containing the schema] to this directory.
+3. Create the `_delta_log` directory in the `web_requests` directory in Azure Storage and upload the [first Delta transaction containing the schema](https://github.com/delta-io/kafka-delta-ingest/blob/main/tests/data/web_requests/_delta_log/00000000000000000000.json) to this directory.
 
 4. In the docker command below, replace the following placeholders with your values:
 * `AZURE_STORAGE_ACCOUNT_NAME` (just the storage account name, not the FQDN)
@@ -250,7 +253,7 @@ Notes:
 
 * In the docker command:
 ** The `sasl.username` is the literal string `$ConnectionString` and not a placeholder.
-** The following `--kafka` arguments are taken from [https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
+** The following `--kafka` arguments are taken from [here](https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties):
 *** `socket.keepalive.enable=true`
 *** `metadata.max.age.ms=180000`
 *** `heartbeat.interval.ms=3000`
@@ -258,7 +261,7 @@ Notes:
 
 #### Sending data to Event Hubs
 
-On Windows, [https://github.com/paolosalvatori/ServiceBusExplorer[Service Bus Explorer] can be used to send data to Event Hubs.
+On Windows, [Service Bus Explorer](https://github.com/paolosalvatori/ServiceBusExplorer) can be used to send data to Event Hubs.
 
 The following payload should be sent for the web_requests Delta table:
 
@@ -293,7 +296,7 @@ docker run -it --network=host edenhill/kcat:1.7.1 -C -o -1 -b {EVENTHUBS_NAMESPA
 
 Notes:
 
-* The following configuration settings in the command above are taken from [https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties[here]:
+* The following configuration settings in the command above are taken from [here](https://docs.microsoft.com/en-us/azure/event-hubs/apache-kafka-configurations#librdkafka-configuration-properties):
 `-X socket.keepalive.enable=true -X metadata.max.age.ms=180000 -X heartbeat.interval.ms=3000 -X session.timeout.ms=30000`
 
 ## Kafka SSL
@@ -340,7 +343,6 @@ aws dynamodb create-table --table-name delta_rs_lock_table \
 This application has support for both avro and json format via command line arguments. If no format argument is provided, the default behavior is to use json.
 The table below indicates what will happen with respect to the provided arguments.
 
-|===
 | Argument      | Value |  Result |
 | ----------- | ----------- | ----------- |
 | <none>      | <none>       | default json behavior |
@@ -349,10 +351,9 @@ The table below indicates what will happen with respect to the provided argument
 | --avro   | ""        | expects all messages in avro format |
 | --avro      | <path to an avro schema>       | will use the provided avro schema for deserialization |
 | --avro   | <schema registry url>        | will connect schema registry to deserialize avro |
-|===
 
 
-For more information, see [https://github.com/delta-io/delta-rs/tree/dbc2994c5fddfd39fc31a8f9202df74788f59a01/dynamodb_lock[DynamoDB lock].
+For more information, see [DynamoDB lock](https://github.com/delta-io/delta-rs/tree/dbc2994c5fddfd39fc31a8f9202df74788f59a01/dynamodb_lock).
 
 ## Verifying data in Azure Storage
 
@@ -361,10 +362,10 @@ Use the Azure Portal to browse the file system:
 * Data files: `web_requests/date=2021-03-24`
 * Delta log files: `web_requests/_delta_log`
 
-#### Debug the app
+## Debug the app
 
-[This is a great VSCode tutorial](https://code.visualstudio.com/docs/languages/rust).
+[This is a great VSCode tutorial for Rust in general](https://code.visualstudio.com/docs/languages/rust).
 
 ## Get Involved
 
-Join [https://delta-users.slack.com/archives/C01Q2RXCVSQ[#kafka-delta-ingest in the Delta Lake Slack workspace]
+Join [#kafka-delta-ingest in the Delta Lake Slack workspace](https://delta-users.slack.com/archives/C01Q2RXCVSQ)
