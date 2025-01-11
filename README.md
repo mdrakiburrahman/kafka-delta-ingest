@@ -79,6 +79,7 @@ Motes:
 
 #### Starting Worker Processes
 
+0. `source ~/.bashrc`
 1. Launch test services - `docker-compose up setup`
 2. Compile: `cargo build --features s3,azure`
 3. Run tests, if you like: `cargo test --features s3,azure`
@@ -111,7 +112,7 @@ export AWS_ENDPOINT_URL=http://0.0.0.0:4566
 export AWS_ACCESS_KEY_ID=test
 export AWS_SECRET_ACCESS_KEY=test
 
-RUST_LOG=debug cargo run --features s3,azure ingest web_requests ./tests/data/web_requests \
+RUST_LOG=info cargo run --features s3,azure ingest web_requests ./tests/data/web_requests \
   --allowed_latency 60 \
   --app_id web_requests \
   --transform 'date: substr(meta.producer.timestamp, `0`, `10`)' \
