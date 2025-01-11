@@ -385,6 +385,10 @@ Use the Azure Portal to browse the file system:
 
 [This is a great VSCode tutorial for Rust in general](https://code.visualstudio.com/docs/languages/rust).
 
+Set a debug point, and click the debug target:
+
+![Debugger hit](./.imgs/debugger.png)
+
 ## Get Involved
 
 Join [#kafka-delta-ingest in the Delta Lake Slack workspace](https://delta-users.slack.com/archives/C01Q2RXCVSQ)
